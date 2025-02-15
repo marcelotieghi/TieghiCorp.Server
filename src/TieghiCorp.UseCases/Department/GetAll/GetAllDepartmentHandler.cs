@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using TieghiCorp.Core.Interfaces;
 using TieghiCorp.Core.Response;
-using TieghiCorp.UseCases.Location;
 
 namespace TieghiCorp.UseCases.Department.GetAll;
 
@@ -38,10 +37,7 @@ internal sealed class GetAllDepartmentHandler(
         var departmentsDtos = pagedDepartments.Select(d =>
             new DepartmentDto(
                 d.Id,
-                d.Name,
-                new LocationDto(
-                    d.Location!.Id,
-                    d.Location.Name)));
+                d.Name));
 
         return PagedResult<IEnumerable<DepartmentDto>>.Success(departmentsDtos, totalCount, request.Page, request.PageSize);
     }

@@ -7,13 +7,15 @@ namespace TieghiCorp.API.Endpoint.Department;
 public abstract class UpdateDepartment : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder endpoint)
-       => endpoint
-           .MapPut("/{id:int}", HandlerAsync)
-           .WithName("Departments: Update")
-           .WithSummary("Update a exist department!")
-           .Produces(StatusCodes.Status200OK)
-           .Produces(StatusCodes.Status400BadRequest)
-           .Produces(StatusCodes.Status500InternalServerError);
+        => endpoint
+            .MapPut("/{id:int}", HandlerAsync)
+            .WithName("Departments: Update")
+            .WithSummary("Update a exist department!")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status409Conflict)
+            .Produces(StatusCodes.Status500InternalServerError);
 
     private static async Task<IResult> HandlerAsync(
         ISender sender,
@@ -23,25 +25,23 @@ public abstract class UpdateDepartment : IEndpoint
     {
         try
         {
-            if (id != request.Id)
-            {
-                return TypedResults.BadRequest("Id not matched");
-            }
+            if (request.Id != id)
+                return TypedResults.BadRequest();
 
             var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
-                ? TypedResults.Ok("Department updated with success!")
+                ? TypedResults.Ok()
                 : TypedResults.Problem(
-                    detail: result.Error.Message,
-                    title: "An unexpected error occurred.",
-                    statusCode: StatusCodes.Status400BadRequest);
+                    title: result.Error.Title,
+                    statusCode: (int)result.Error.Code,
+                    detail: result.Error.Message);
         }
         catch (Exception ex)
         {
             return TypedResults.Problem(
-                detail: ex.Message,
                 title: "An unexpected error occurred.",
-                statusCode: StatusCodes.Status500InternalServerError);
+                statusCode: StatusCodes.Status500InternalServerError,
+                detail: ex.Message);
         }
     }
 }

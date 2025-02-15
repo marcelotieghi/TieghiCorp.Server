@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfraServices(builder.Configuration);
 builder.Services.AddUseCasesServices();
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("TieghiCorpCorsPolicy", corsBuilder =>
