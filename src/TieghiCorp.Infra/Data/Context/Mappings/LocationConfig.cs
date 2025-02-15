@@ -22,6 +22,6 @@ internal sealed class LocationConfig : IEntityTypeConfiguration<Location>
             .HasMany<Department>()
             .WithOne(d => d.Location)
             .HasForeignKey(d => d.LocationId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

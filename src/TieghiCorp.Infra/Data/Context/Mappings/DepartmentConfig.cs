@@ -33,7 +33,7 @@ internal sealed class DepartmentConfig : IEntityTypeConfiguration<Department>
             .HasMany<Personnel>()
             .WithOne(p => p.Department)
             .HasForeignKey(p => p.DepartmentId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
             .Navigation(d => d.Location)
