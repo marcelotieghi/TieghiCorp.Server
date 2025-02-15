@@ -13,13 +13,7 @@ internal sealed class CreateLocationHandler(
 
     public async Task<Result> Handle(CreateLocationRequest request, CancellationToken cancellationToken)
     {
-        var t = await _locationQuery.FindByKeyAsync(
-            d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(),
-            cancellationToken);
-
-        if (await _locationQuery.FindByKeyAsync(
-            d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(),
-            cancellationToken))
+        if (await _locationQuery.FindByKeyAsync(d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(), cancellationToken))
         {
             return Result.Failure(HttpError.Conflict("Location", "Name", request.Name));
         }

@@ -15,16 +15,12 @@ internal sealed class CreateDepartmentHandler(
 
     public async Task<Result> Handle(CreateDepartmentRequest request, CancellationToken cancellationToken)
     {
-        if (!await _locationQuery.FindByKeyAsync(
-            l => l.Id == request.LocationId,
-            cancellationToken))
+        if (!await _locationQuery.FindByKeyAsync(l => l.Id == request.LocationId, cancellationToken))
         {
             return Result.Failure(HttpError.NotFound("Location", request.LocationId));
         }
 
-        if (await _departmentQuery.FindByKeyAsync(
-            d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(),
-            cancellationToken))
+        if (await _departmentQuery.FindByKeyAsync(d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(), cancellationToken))
         {
             return Result.Failure(HttpError.Conflict("Department", "Name", request.Name));
         }

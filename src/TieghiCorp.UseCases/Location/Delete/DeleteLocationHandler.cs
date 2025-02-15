@@ -15,16 +15,12 @@ internal sealed class DeleteLocationHandler(
 
     public async Task<Result> Handle(DeleteLocationRequest request, CancellationToken cancellationToken)
     {
-        if (!await _locationQuery.FindByKeyAsync(
-            l => l.Id == request.Id,
-            cancellationToken))
+        if (!await _locationQuery.FindByKeyAsync(l => l.Id == request.Id, cancellationToken))
         {
             return Result.Failure(HttpError.NotFound("Location", request.Id));
         }
 
-        if (await _departmentQuery.FindByKeyAsync(
-            d => d.LocationId == request.Id,
-            cancellationToken))
+        if (await _departmentQuery.FindByKeyAsync(d => d.LocationId == request.Id, cancellationToken))
         {
             return Result.Failure(HttpError.DependencyConflict("Location", "Department"));
         }

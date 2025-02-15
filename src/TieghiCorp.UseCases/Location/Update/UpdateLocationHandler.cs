@@ -15,9 +15,7 @@ internal sealed class UpdateLocationHandler(
     {
         var location = await _locationQuery.GetByKeyAsync(l => l.Id == request.Id, cancellationToken);
 
-        if (await _locationQuery.FindByKeyAsync(
-            d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(),
-            cancellationToken))
+        if (await _locationQuery.FindByKeyAsync(d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(), cancellationToken))
         {
             return Result.Failure(HttpError.Conflict("Location", "Name", request.Name));
         }
