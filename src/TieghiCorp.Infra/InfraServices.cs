@@ -26,5 +26,9 @@ public static class InfraServices
         services
             .AddScoped<ICommandRepos<Department>, CommandRepos<Department>>()
             .AddScoped<IQueryRepos<Department>, QueryRepos<Department>>();
+
+        services
+            .AddScoped<ICommandRepos<Personnel>, CommandRepos<Personnel>>()
+            .AddScoped<IQueryRepos<Personnel>, QueryRepos<Personnel>>();
     }
 }

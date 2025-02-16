@@ -1,18 +1,18 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TieghiCorp.UseCases.Department.GetAll;
+using TieghiCorp.UseCases.Personnel.GetAll;
 
-namespace TieghiCorp.API.Endpoint.Department;
+namespace TieghiCorp.API.Endpoint.Personnel;
 
-public abstract class GetAllDepartment : IEndpoint
+public abstract class GetAllPersonnel : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder endpoint)
-        => endpoint
-            .MapGet("/", HandleAsync)
-            .WithName("Department: List")
-            .WithSummary("Get a list of departments!")
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status500InternalServerError);
+       => endpoint
+           .MapGet("/", HandleAsync)
+           .WithName("Personnel: List")
+           .WithSummary("Get a list of personnel!")
+           .Produces(StatusCodes.Status200OK)
+           .Produces(StatusCodes.Status500InternalServerError);
 
     private static async Task<IResult> HandleAsync(
          ISender sender,
@@ -25,7 +25,7 @@ public abstract class GetAllDepartment : IEndpoint
     {
         try
         {
-            var request = new GetAllDepartmentRequest(
+            var request = new GetAllPersonnelRequest(
                 pageNumber,
                 pageSize,
                 searchTerm,

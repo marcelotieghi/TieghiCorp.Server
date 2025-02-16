@@ -1,36 +1,31 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TieghiCorp.UseCases.Department.Update;
+using TieghiCorp.UseCases.Personnel.Create;
 
-namespace TieghiCorp.API.Endpoint.Department;
+namespace TieghiCorp.API.Endpoint.Personnel;
 
-public abstract class UpdateDepartment : IEndpoint
+public abstract class CreatePersonnel : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder endpoint)
         => endpoint
-            .MapPut("/{id:int}", HandlerAsync)
-            .WithName("Department: Update")
-            .WithSummary("Update a exist department!")
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest)
+            .MapPost("/", HandleAsync)
+            .WithName("Personnel: Create")
+            .WithSummary("Create a new personnel!")
+            .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)
             .Produces(StatusCodes.Status500InternalServerError);
 
-    private static async Task<IResult> HandlerAsync(
-        ISender sender,
-        int id,
-        [FromBody] UpdateDepartmentRequest request,
-        CancellationToken cancellationToken)
+    public static async Task<IResult> HandleAsync(
+       ISender sender,
+       [FromBody] CreatePersonnelRequest request,
+       CancellationToken cancellationToken)
     {
         try
         {
-            if (request.Id != id)
-                return TypedResults.BadRequest();
-
             var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
-                ? TypedResults.Ok()
+                ? TypedResults.Created()
                 : TypedResults.Problem(
                     title: result.Error.Title,
                     statusCode: (int)result.Error.Code,

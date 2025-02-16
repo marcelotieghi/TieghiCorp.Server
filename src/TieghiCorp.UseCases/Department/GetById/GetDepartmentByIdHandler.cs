@@ -14,9 +14,7 @@ internal sealed class GetDepartmentByIdHandler(
     {
         var department = await _departmentQuery.GetByKeyAsync(d => d.Id == request.Id, cancellationToken);
 
-        if (!await _departmentQuery.FindByKeyAsync(
-                l => l.Id == request.Id,
-                cancellationToken))
+        if (!await _departmentQuery.FindByKeyAsync(l => l.Id == request.Id, cancellationToken))
         {
             return Result<DepartmentDto>.Failure(HttpError.NotFound("Department", request.Id));
         }

@@ -1,19 +1,19 @@
 ﻿using MediatR;
-using TieghiCorp.UseCases.Department.GetById;
+using TieghiCorp.UseCases.Personnel.GetById;
 
-namespace TieghiCorp.API.Endpoint.Department;
+namespace TieghiCorp.API.Endpoint.Personnel;
 
-public abstract class GetDepartmentById : IEndpoint
+public abstract class GetPersonnelById : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder endpoint)
-        => endpoint
-            .MapGet("/{id:int}", HandlerAsync)
-            .WithName("Department: GetById")
-            .WithSummary("Get a exist department by Id!")
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest)
-            .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status500InternalServerError);
+       => endpoint
+           .MapGet("/{id:int}", HandlerAsync)
+           .WithName("Personnel: GetById")
+           .WithSummary("Get a exist personnel by Id!")
+           .Produces(StatusCodes.Status200OK)
+           .Produces(StatusCodes.Status400BadRequest)
+           .Produces(StatusCodes.Status404NotFound)
+           .Produces(StatusCodes.Status500InternalServerError);
 
     private static async Task<IResult> HandlerAsync(
         ISender sender,
@@ -25,7 +25,7 @@ public abstract class GetDepartmentById : IEndpoint
             if (id <= 0)
                 return TypedResults.BadRequest("The ID must be a positive integer.");
 
-            var result = await sender.Send(new GetDepartmentByIdRequest(id), cancellationToken);
+            var result = await sender.Send(new GetPersonnelByIdRequest(id), cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok(result.Data)
                 : TypedResults.Problem(

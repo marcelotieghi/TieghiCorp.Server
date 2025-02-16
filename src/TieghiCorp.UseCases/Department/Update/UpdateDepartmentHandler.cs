@@ -15,9 +15,7 @@ internal sealed class UpdateDepartmentHandler(
 
     public async Task<Result> Handle(UpdateDepartmentRequest request, CancellationToken cancellationToken)
     {
-        if (!await _locationQuery.FindByKeyAsync(
-            l => l.Id == request.LocationId,
-            cancellationToken))
+        if (!await _locationQuery.FindByKeyAsync(l => l.Id == request.LocationId, cancellationToken))
         {
             return Result.Failure(HttpError.NotFound("Location", request.LocationId));
         }
@@ -29,9 +27,7 @@ internal sealed class UpdateDepartmentHandler(
             return Result.Failure(HttpError.NotFound("Department", request.Id));
         }
 
-        if (await _departmentQuery.FindByKeyAsync(
-            d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(),
-            cancellationToken))
+        if (await _departmentQuery.FindByKeyAsync(d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(), cancellationToken))
         {
             return Result.Failure(HttpError.Conflict("Department", "Name", request.Name));
         }

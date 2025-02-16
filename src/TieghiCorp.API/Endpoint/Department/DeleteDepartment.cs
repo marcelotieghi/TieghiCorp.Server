@@ -8,7 +8,7 @@ public abstract class DeleteDepartment : IEndpoint
     public static void Map(IEndpointRouteBuilder endpoint)
         => endpoint
             .MapDelete("/{id:int}", HandleAsync)
-            .WithName("Departments: Delete")
+            .WithName("Department: Delete")
             .WithSummary("Delete a exist department!")
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)

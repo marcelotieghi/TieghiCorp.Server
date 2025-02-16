@@ -1,16 +1,17 @@
-﻿using MediatR;
+﻿
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TieghiCorp.UseCases.Department.Update;
+using TieghiCorp.UseCases.Personnel.Update;
 
-namespace TieghiCorp.API.Endpoint.Department;
+namespace TieghiCorp.API.Endpoint.Personnel;
 
-public abstract class UpdateDepartment : IEndpoint
+public abstract class UpdatePersonnel : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder endpoint)
         => endpoint
             .MapPut("/{id:int}", HandlerAsync)
-            .WithName("Department: Update")
-            .WithSummary("Update a exist department!")
+            .WithName("Personnel: Update")
+            .WithSummary("Update a exist personnel!")
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
@@ -20,7 +21,7 @@ public abstract class UpdateDepartment : IEndpoint
     private static async Task<IResult> HandlerAsync(
         ISender sender,
         int id,
-        [FromBody] UpdateDepartmentRequest request,
+        [FromBody] UpdatePersonnelRequest request,
         CancellationToken cancellationToken)
     {
         try

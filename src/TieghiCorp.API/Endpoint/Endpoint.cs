@@ -1,5 +1,6 @@
 ﻿using TieghiCorp.API.Endpoint.Department;
 using TieghiCorp.API.Endpoint.Location;
+using TieghiCorp.API.Endpoint.Personnel;
 
 namespace TieghiCorp.API.Endpoint;
 
@@ -32,6 +33,15 @@ public static class Endpoint
             .MapEndpoint<DeleteDepartment>()
             .MapEndpoint<GetDepartmentById>()
             .MapEndpoint<GetAllDepartment>();
+
+        endpoints
+            .MapGroup("v1/personnel")
+            .WithTags("Personnel")
+            .MapEndpoint<CreatePersonnel>()
+            .MapEndpoint<UpdatePersonnel>()
+            .MapEndpoint<DeletePersonnel>()
+            .MapEndpoint<GetPersonnelById>()
+            .MapEndpoint<GetAllPersonnel>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder endpoint)
