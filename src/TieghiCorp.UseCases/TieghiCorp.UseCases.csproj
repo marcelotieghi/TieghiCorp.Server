@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TieghiCorp.Core\TieghiCorp.Core.csproj" />
+  </ItemGroup>
+
 </Project>
