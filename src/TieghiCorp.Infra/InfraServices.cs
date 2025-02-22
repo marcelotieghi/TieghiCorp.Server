@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TieghiCorp.Core.Entities;
 using TieghiCorp.Core.Interfaces;
 using TieghiCorp.Infra.Data.Context;
 using TieghiCorp.Infra.Repos;
@@ -17,5 +18,17 @@ public static class InfraServices
             opt => opt.UseSqlServer(config.GetConnectionString("DefaultConn")));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services
+            .AddScoped<ICommandRepos<Location>, CommandRepos<Location>>()
+            .AddScoped<IQueryRepos<Location>, QueryRepos<Location>>();
+
+        services
+            .AddScoped<ICommandRepos<Department>, CommandRepos<Department>>()
+            .AddScoped<IQueryRepos<Department>, QueryRepos<Department>>();
+
+        services
+            .AddScoped<ICommandRepos<Personnel>, CommandRepos<Personnel>>()
+            .AddScoped<IQueryRepos<Personnel>, QueryRepos<Personnel>>();
     }
 }
