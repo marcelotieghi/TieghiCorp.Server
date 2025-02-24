@@ -33,7 +33,7 @@ internal sealed class UpdatePersonnelHandler(
                     propertyValue: request.Id));
         }
 
-        if (await _personnelQuery.ExistByKeyAsync(p => p.Email.ToLower().Trim() == request.Email.ToLower().Trim(), cancellationToken))
+        if (await _personnelQuery.ExistByKeyAsync(p => p.Email.ToLower().Trim() == request.Email.ToLower().Trim() && p.Id != request.Id, cancellationToken))
         {
             return Result.Failure(
                 HttpError.Conflict(
