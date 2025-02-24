@@ -33,7 +33,7 @@ internal sealed class UpdateDepartmentHandler(
                     propertyValue: request.Id));
         }
 
-        if (await _departmentQuery.ExistByKeyAsync(d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim(), cancellationToken))
+        if (await _departmentQuery.ExistByKeyAsync(d => d.Name.ToLower().Trim() == request.Name.ToLower().Trim() && d.Id != request.Id, cancellationToken))
         {
             return Result.Failure(
                 HttpError.Conflict(
