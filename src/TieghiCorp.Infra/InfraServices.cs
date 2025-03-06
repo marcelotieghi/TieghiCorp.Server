@@ -14,8 +14,17 @@ public static class InfraServices
         this IServiceCollection services,
         IConfiguration config)
     {
-        services.AddDbContext<AppDbContext>(
-            opt => opt.UseSqlServer(config.GetConnectionString("DefaultConn")));
+        //services.AddDbContext<AppDbContext>(
+        //    opt => opt.UseSqlServer(config.GetConnectionString("DefaultConn")));
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(
+                config.GetConnectionString("DefaultConn"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null)
+            ));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
