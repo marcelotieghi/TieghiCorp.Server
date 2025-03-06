@@ -19,7 +19,7 @@ public static class InfraServices
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(
-                config.GetConnectionString("DefaultConnection"),
+                config.GetConnectionString("DefaultConn"),
                 sqlOptions => sqlOptions.EnableRetryOnFailure(
                     maxRetryCount: 3,
                     maxRetryDelay: TimeSpan.FromSeconds(30),
