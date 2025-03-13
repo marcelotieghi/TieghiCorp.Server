@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Personnel.GetById;
 
 namespace TieghiCorp.API.Endpoint.Personnel;
@@ -10,6 +11,7 @@ public abstract class GetPersonnelByIdEndpoint : IEndpoint
             .MapGet("/{id:int}", HandlerAsync)
             .WithName("Personnel: GetById")
             .WithSummary("Get a exist personnel by Id!")
+            .AddEndpointFilter<ValidationFilter<GetPersonnelByIdRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Personnel.Update;
 
 namespace TieghiCorp.API.Endpoint.Personnel;
@@ -11,6 +12,7 @@ public abstract class UpdatePersonnelEndpoint : IEndpoint
             .MapPut("/{id:int}", HandlerAsync)
             .WithName("Personnel: Update")
             .WithSummary("Update a exist personnel!")
+            .AddEndpointFilter<ValidationFilter<UpdatePersonnelRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)

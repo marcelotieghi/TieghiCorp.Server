@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Location.Create;
 
 namespace TieghiCorp.API.Endpoint.Location;
@@ -11,6 +12,7 @@ public abstract class CreateLocationEndpoint : IEndpoint
             .MapPost("/", HandleAsync)
             .WithName("Location: Create")
             .WithSummary("Create a new location!")
+            .AddEndpointFilter<ValidationFilter<CreateLocationRequest>>()
             .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)

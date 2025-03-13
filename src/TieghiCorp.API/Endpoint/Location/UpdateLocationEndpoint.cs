@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Location.Update;
 
 namespace TieghiCorp.API.Endpoint.Location;
@@ -11,6 +12,7 @@ public abstract class UpdateLocationEndpoint : IEndpoint
             .MapPut("/{id:int}", HandleAsync)
             .WithName("Location: Update")
             .WithSummary("Update a exist location!")
+            .AddEndpointFilter<ValidationFilter<UpdateLocationRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)

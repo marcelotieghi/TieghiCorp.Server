@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Location.GetById;
 
 namespace TieghiCorp.API.Endpoint.Location;
@@ -10,6 +11,7 @@ public abstract class GetLocationByIdEndpoint : IEndpoint
             .MapGet("/{id:int}", HandleAsync)
             .WithName("Location: GetById")
             .WithSummary("Get a exist location by Id!")
+            .AddEndpointFilter<ValidationFilter<GetLocationByIdRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
@@ -17,15 +19,12 @@ public abstract class GetLocationByIdEndpoint : IEndpoint
 
     private static async Task<IResult> HandleAsync(
         ISender sender,
-        int id,
+        [AsParameters] GetLocationByIdRequest request,
         CancellationToken cancellationToken)
     {
         try
         {
-            if (id <= 0)
-                return TypedResults.BadRequest("The ID must be a positive integer.");
-
-            var result = await sender.Send(new GetLocationByIdRequest(id), cancellationToken);
+            var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok(result.Data)
                 : TypedResults.Problem(

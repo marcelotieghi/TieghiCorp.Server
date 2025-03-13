@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.GetById;
 
 namespace TieghiCorp.API.Endpoint.Department;
@@ -10,6 +11,7 @@ public abstract class GetDepartmentByIdEndpoint : IEndpoint
             .MapGet("/{id:int}", HandlerAsync)
             .WithName("Department: GetById")
             .WithSummary("Get a exist department by Id!")
+            .AddEndpointFilter<ValidationFilter<GetDepartmentByIdRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)

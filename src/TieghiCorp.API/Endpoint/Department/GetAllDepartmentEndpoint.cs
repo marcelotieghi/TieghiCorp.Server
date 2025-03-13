@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.GetAll;
 
 namespace TieghiCorp.API.Endpoint.Department;
@@ -11,6 +12,7 @@ public abstract class GetAllDepartmentEndpoint : IEndpoint
             .MapGet("/", HandleAsync)
             .WithName("Department: List")
             .WithSummary("Get a list of departments!")
+            .AddEndpointFilter<ValidationFilter<GetAllDepartmentRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status500InternalServerError);
 

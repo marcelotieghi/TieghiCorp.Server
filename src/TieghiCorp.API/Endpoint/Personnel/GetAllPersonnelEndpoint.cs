@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Personnel.GetAll;
 
 namespace TieghiCorp.API.Endpoint.Personnell;
@@ -11,6 +12,7 @@ public class GetAllPersonnelEndpoint : IEndpoint
             .MapGet("/", HandleAsync)
             .WithName("Personnel: List")
             .WithSummary("Get a list of personnel!")
+            .AddEndpointFilter<ValidationFilter<GetAllPersonnelRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status500InternalServerError);
 
