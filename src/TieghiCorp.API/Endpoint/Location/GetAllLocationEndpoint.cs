@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Location.GetAll;
 
 namespace TieghiCorp.API.Endpoint.Location;
@@ -11,28 +11,17 @@ public abstract class GetAllLocationEndpoint : IEndpoint
             .MapGet("/", HandleAsync)
             .WithName("Location: List")
             .WithSummary("Get a list of locations!")
+            .AddEndpointFilter<ValidationFilter<GetAllLocationRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status500InternalServerError);
 
     private static async Task<IResult> HandleAsync(
-         ISender sender,
-         [FromQuery] int pageNumber = 1,
-         [FromQuery] int pageSize = 25,
-         [FromQuery] string searchTerm = "",
-         [FromQuery] string sortField = "id",
-         [FromQuery] string sortDirection = "asc",
-         CancellationToken cancellationToken = default)
+        ISender sender,
+        [AsParameters] GetAllLocationRequest request,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            var request = new GetAllLocationRequest(
-                pageNumber,
-                pageSize,
-                searchTerm,
-                sortField,
-                sortDirection
-            );
-
             var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok(result)

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.Delete;
 
 namespace TieghiCorp.API.Endpoint.Department;
@@ -10,6 +11,7 @@ public abstract class DeleteDepartmentEndpoint : IEndpoint
             .MapDelete("/{id:int}", HandleAsync)
             .WithName("Department: Delete")
             .WithSummary("Delete a exist department!")
+            .AddEndpointFilter<ValidationFilter<DeleteDepartmentRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)

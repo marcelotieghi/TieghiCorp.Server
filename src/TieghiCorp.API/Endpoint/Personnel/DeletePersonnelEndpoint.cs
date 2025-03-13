@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.Delete;
+using TieghiCorp.UseCases.Personnel.Delete;
 
 namespace TieghiCorp.API.Endpoint.Personnel;
 
@@ -10,6 +12,7 @@ public abstract class DeletePersonnelEndpoint : IEndpoint
             .MapDelete("/{id:int}", HandleAsync)
             .WithName("Personnel: Delete")
             .WithSummary("Delete a exist personnel!")
+            .AddEndpointFilter<ValidationFilter<DeletePersonnelRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)

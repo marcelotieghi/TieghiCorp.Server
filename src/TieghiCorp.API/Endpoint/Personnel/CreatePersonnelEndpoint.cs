@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Personnel.Create;
 
 namespace TieghiCorp.API.Endpoint.Personnel;
@@ -11,6 +12,7 @@ public abstract class CreatePersonnelEndpoint : IEndpoint
             .MapPost("/", HandleAsync)
             .WithName("Personnel: Create")
             .WithSummary("Create a new personnel!")
+            .AddEndpointFilter<ValidationFilter<CreatePersonnelRequest>>()
             .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)

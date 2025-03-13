@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.Create;
 
 namespace TieghiCorp.API.Endpoint.Department;
@@ -11,6 +12,7 @@ public abstract class CreateDepartmentEndpoint : IEndpoint
             .MapPost("/", HandleAsync)
             .WithName("Department: Create")
             .WithSummary("Create a new department!")
+            .AddEndpointFilter<ValidationFilter<CreateDepartmentRequest>>()
             .Produces(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.Update;
 
 namespace TieghiCorp.API.Endpoint.Department;
@@ -11,6 +12,7 @@ public abstract class UpdateDepartmentEndpoint : IEndpoint
             .MapPut("/{id:int}", HandlerAsync)
             .WithName("Department: Update")
             .WithSummary("Update a exist department!")
+            .AddEndpointFilter<ValidationFilter<UpdateDepartmentRequest>>()
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
