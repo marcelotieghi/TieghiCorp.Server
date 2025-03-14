@@ -19,15 +19,12 @@ public abstract class GetPersonnelByIdEndpoint : IEndpoint
 
     private static async Task<IResult> HandlerAsync(
         ISender sender,
-        int id,
+        [AsParameters] GetPersonnelByIdRequest request,
         CancellationToken cancellationToken)
     {
         try
         {
-            if (id <= 0)
-                return TypedResults.BadRequest("The ID must be a positive integer.");
-
-            var result = await sender.Send(new GetPersonnelByIdRequest(id), cancellationToken);
+            var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok(result.Data)
                 : TypedResults.Problem(

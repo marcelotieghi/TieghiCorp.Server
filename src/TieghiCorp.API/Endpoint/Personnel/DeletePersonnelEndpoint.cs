@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using TieghiCorp.API.Filters;
-using TieghiCorp.UseCases.Department.Delete;
 using TieghiCorp.UseCases.Personnel.Delete;
 
 namespace TieghiCorp.API.Endpoint.Personnel;
@@ -20,12 +19,12 @@ public abstract class DeletePersonnelEndpoint : IEndpoint
 
     private static async Task<IResult> HandleAsync(
         ISender sender,
-        int id,
+        [AsParameters] DeletePersonnelRequest request,
         CancellationToken cancellationToken)
     {
         try
         {
-            var result = await sender.Send(new DeleteDepartmentRequest(id), cancellationToken);
+            var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok()
                 : TypedResults.Problem(

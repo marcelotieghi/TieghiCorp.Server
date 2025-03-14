@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using TieghiCorp.API.Filters;
 using TieghiCorp.UseCases.Department.GetAll;
 
@@ -17,24 +16,12 @@ public abstract class GetAllDepartmentEndpoint : IEndpoint
             .Produces(StatusCodes.Status500InternalServerError);
 
     private static async Task<IResult> HandleAsync(
-         ISender sender,
-         [FromQuery] int pageNumber = 1,
-         [FromQuery] int pageSize = 25,
-         [FromQuery] string searchTerm = "",
-         [FromQuery] string sortField = "id",
-         [FromQuery] string sortDirection = "asc",
-         CancellationToken cancellationToken = default)
+        ISender sender,
+        [AsParameters] GetAllDepartmentRequest request,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            var request = new GetAllDepartmentRequest(
-                pageNumber,
-                pageSize,
-                searchTerm,
-                sortField,
-                sortDirection
-            );
-
             var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok(result)
