@@ -4,7 +4,6 @@ namespace TieghiCorp.Core.Response;
 
 public class Result
 {
-    [JsonIgnore]
     public bool IsSuccess { get; }
 
     [JsonIgnore]
