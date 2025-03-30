@@ -19,12 +19,12 @@ public abstract class DeleteDepartmentEndpoint : IEndpoint
 
     private static async Task<IResult> HandleAsync(
         ISender sender,
-        int id,
+        [AsParameters] DeleteDepartmentRequest request,
         CancellationToken cancellationToken)
     {
         try
         {
-            var result = await sender.Send(new DeleteDepartmentRequest(id), cancellationToken);
+            var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
                 ? TypedResults.Ok("Department delete with success")
                 : TypedResults.Problem(

@@ -16,13 +16,22 @@ internal sealed class GetAllDepartmentHandler(
         var departments = _departmentQuery.GetAll();
 
         if (!string.IsNullOrEmpty(request.SearchTerm))
-            departments = departments.Where(d => d.Name.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase));
+        {
+            departments = departments.Where(d =>
+                EF.Functions.Like(d.Name.ToLower(), $"%{request.SearchTerm.ToLower()}%") ||
+                EF.Functions.Like(d.Location!.Name.ToLower(), $"%{request.SearchTerm.ToLower()}%"));
+        }
 
         departments = request.SortField.ToLower() switch
         {
             "name" => request.SortDirection.Equals("asc", StringComparison.CurrentCultureIgnoreCase)
                 ? departments.OrderBy(d => d.Name)
                 : departments.OrderByDescending(l => l.Name),
+
+            "locationname" => request.SortDirection.Equals("asc", StringComparison.CurrentCultureIgnoreCase)
+                ? departments.OrderBy(d => d.Location!.Name)
+                : departments.OrderByDescending(d => d.Location!.Name),
+
             _ => request.SortDirection.Equals("asc", StringComparison.CurrentCultureIgnoreCase)
                 ? departments.OrderBy(d => d.Id)
                 : departments.OrderByDescending(l => l.Id)

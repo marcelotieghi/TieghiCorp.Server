@@ -20,7 +20,7 @@ public sealed class GetAllPersonnelValidator : AbstractValidator<GetAllPersonnel
             .WithMessage("{PropertyName} must not exceed 100 characters.");
 
         RuleFor(p => p.SortField)
-            .ApplySortFieldValidation(["id", "firstname", "lastname", "email", "jobtitle", "departmentid"]);
+            .ApplySortFieldValidation(["id", "firstname", "lastname", "email", "jobtitle", "departmentid", "departmentname"]);
 
         RuleFor(p => p.SortDirection)
             .ApplySortDirectionValidation();

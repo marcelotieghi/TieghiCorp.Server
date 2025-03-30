@@ -26,7 +26,7 @@ public abstract class GetLocationByIdEndpoint : IEndpoint
         {
             var result = await sender.Send(request, cancellationToken);
             return result.IsSuccess
-                ? TypedResults.Ok(result.Data)
+                ? TypedResults.Ok(result)
                 : TypedResults.Problem(
                     title: result.Error.Title,
                     statusCode: (int)result.Error.Code,
